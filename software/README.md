@@ -27,5 +27,7 @@ flask --app firmware_mock run
 
 ## Software
 
-TODO(boomanaiden154)
+```bash
+flask --app software run
+```
 

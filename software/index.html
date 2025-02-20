@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div style="width: 100vw;">
+      <div style="position: relative; height: 45vh; width: 45vw; float: left;">
+        <canvas id="ph-chart"></canvas>
+      </div>
+      <div style="position: relative; height: 45vh; width: 45vw; float: right;">
+        <canvas id="do-chart"></canvas>
+      </div>
+    </div>
+    <div style="width: 100vw;">
+      <div style="position: relative; height: 45vh; width: 45vw; float: left;">
+        <canvas id="temp-chart"></canvas>
+      </div>
+      <div style="position: relative; height: 45vh; width: 45vw; float: right;">
+        <canvas id="humidity-chart"></canvas>
+      </div>
+    </div>
+    <div style="width: 100vw;">
+      <button id="water-pump">Toggle Water Pump</button>
+      <button id="refresh">Refresh</button>
+    </div>
+
+    <script>
+      const ph_context = document.getElementById("ph-chart");
+
+      new Chart(ph_context, {
+        type: 'line',
+        data: {
+          labels: ['1:10:10','1:10:15','1:10:20'],
+          datasets: [{
+            label: 'pH',
+            data: [7,7.5,8],
+            borderWidth: 1
+          }]
+        },
+      });
+
+      const do_context = document.getElementById("do-chart");
+      new Chart(do_context, {
+        type: 'line',
+        data: {
+          labels: ['1:10:10','1:10:15','1:10:20'],
+          datasets: [{
+            label: 'Conductivity',
+            data: [1000, 2000, 1500],
+            borderWidth: 1
+          }]
+        },
+      });
+
+      const temp_context = document.getElementById("temp-chart");
+      new Chart(temp_context, {
+        type: 'line',
+        data: {
+          labels: ['1:10:10','1:10:15','1:10:20'],
+          datasets: [{
+            label: 'Temperature',
+            data: [75,80,75],
+            borderWidth: 1
+          }]
+        },
+      });
+
+      const humidity_context = document.getElementById("humidity-chart");
+      new Chart(humidity_context, {
+        type: 'line',
+        data: {
+          labels: ['1:10:10','1:10:15','1:10:20'],
+          datasets: [{
+            label: 'Humidity',
+            data: [23,25,20],
+            borderWidth: 1
+          }]
+        },
+      });
+    </script>
+  </body>
+</html>
