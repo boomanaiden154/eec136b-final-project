@@ -46,6 +46,11 @@ def data():
     "conductivity": conductivity
   }
 
+@app.route("/pump")
+def pump():
+  req = requests.get(FIRMWARE_MOCK_ADDRESS + "/waterpump")
+  return req.json()
+
 if __name__ == "__main__":
   queryData()
   app.run(host="0.0.0.0", port=5000)
