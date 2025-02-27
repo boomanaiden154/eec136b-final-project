@@ -12,3 +12,13 @@ app = Flask(__name__)
 def root():
   return send_file("index.html")
 
+@app.route("/data")
+def data():
+  return {
+    "times": [1,2,3],
+    "temperature": [1,2,3],
+    "humidity": [1,2,3],
+    "ph": [1,2,3],
+    "conductivity": [1,2,3]
+  }
+    

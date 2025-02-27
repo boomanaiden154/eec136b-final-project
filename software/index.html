@@ -27,8 +27,7 @@
 
     <script>
       const ph_context = document.getElementById("ph-chart");
-
-      new Chart(ph_context, {
+      ph_chart = new Chart(ph_context, {
         type: 'line',
         data: {
           labels: ['1:10:10','1:10:15','1:10:20'],
@@ -41,7 +40,7 @@
       });
 
       const do_context = document.getElementById("do-chart");
-      new Chart(do_context, {
+      do_chart = new Chart(do_context, {
         type: 'line',
         data: {
           labels: ['1:10:10','1:10:15','1:10:20'],
@@ -54,7 +53,7 @@
       });
 
       const temp_context = document.getElementById("temp-chart");
-      new Chart(temp_context, {
+      temp_chart = new Chart(temp_context, {
         type: 'line',
         data: {
           labels: ['1:10:10','1:10:15','1:10:20'],
@@ -67,7 +66,7 @@
       });
 
       const humidity_context = document.getElementById("humidity-chart");
-      new Chart(humidity_context, {
+      humidity_chart = new Chart(humidity_context, {
         type: 'line',
         data: {
           labels: ['1:10:10','1:10:15','1:10:20'],
@@ -78,6 +77,29 @@
           }]
         },
       });
+
+      document.getElementById("refresh").onclick = function() {
+        response = fetch("/data").then(function(response) {
+          return response.json();
+        }).then(function(json_response) {
+          labels = json_response['times']
+          ph_chart.data.labels = labels
+          ph_chart.data.datasets[0].data = json_response['ph']
+          ph_chart.update()
+
+          do_chart.data.labels = labels
+          do_chart.data.datasets[0].data = json_response['conductivity']
+          do_chart.update()
+
+          temp_chart.data.labels = labels
+          temp_chart.data.datasets[0].data = json_response['temperature']
+          temp_chart.update()
+
+          humidity_chart.data.labels = labels
+          humidity_chart.data.datasets[0].data = json_response['humidity']
+          humidity_chart.update()
+        });
+      };
     </script>
   </body>
 </html>
