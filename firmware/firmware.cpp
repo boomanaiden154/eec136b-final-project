@@ -13,6 +13,10 @@ static const uint8_t do_address = 100;
 static const uint8_t ph_address = 99;
 static const char read_command[] = "R";
 
+static const uint8_t water_pump_pin = 2;
+static const uint8_t led_pins[] = {4, 5, 12};
+bool led_on[] = {false, false, false};
+
 Adafruit_BME280 bme;
 
 const char* ssid = "Lance2152";
@@ -74,7 +78,14 @@ void setup()                     //hardware initialization.
     while (1);
   }
 
-  pinMode(4, OUTPUT);
+  pinMode(water_pump_pin, OUTPUT);
+  pinMode(led_pins[0], OUTPUT);
+  pinMode(led_pins[1], OUTPUT);
+  pinMode(led_pins[2], OUTPUT);
+  digitalWrite(water_pump_pin, LOW);
+  digitalWrite(led_pins[0], LOW);
+  digitalWrite(led_pins[1], LOW);
+  digitalWrite(led_pins[2], LOW);
 
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -120,14 +131,34 @@ void setup()                     //hardware initialization.
   server.on("/waterpump", HTTP_GET, [](AsyncWebServerRequest *request) {
     bool old_status = water_pump_on;
     if (water_pump_on) {
-      digitalWrite(4, LOW);
+      digitalWrite(water_pump_pin, LOW);
       water_pump_on = false;
     } else {
-      digitalWrite(4, HIGH);
+      digitalWrite(water_pump_pin, HIGH);
       water_pump_on = true;
     }
     char buffer[128];
     sprintf(buffer, "{\"previous_state\": \"%s\", \"new_state\": \"%s\"}", old_status ? "on" : "off", water_pump_on ? "on" : "off");
+    request->send(200, "text/html", buffer);
+  });
+
+  server.on("/led", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (!request->hasParam("led")) {
+      request->send(400, "text/html", "bad request");
+      return;
+    }
+    int led_number = atoi(request->getParam("led")->value().c_str());
+    bool old_status = led_on[led_number];
+    if (led_on[led_number]) {
+      digitalWrite(led_pins[led_number], LOW);
+      led_on[led_number] = false;
+    } else {
+      digitalWrite(led_pins[led_number], HIGH);
+      led_on[led_number] = true;
+      
+    }
+    char buffer[128];
+    sprintf(buffer, "{\"previous_state\": \"%s\", \"new_state\": \"%s\"}", old_status ? "on" : "off", led_on[led_number] ? "on" : "off");
     request->send(200, "text/html", buffer);
   });
 
@@ -137,4 +168,3 @@ void setup()                     //hardware initialization.
  
 void loop() {
 }
-
