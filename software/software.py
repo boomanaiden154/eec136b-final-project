@@ -45,11 +45,11 @@ def root():
 @app.route("/data")
 def data():
   return {
-    "times": time_stamps[:20],
-    "temperature": temp[:20],
-    "humidity": humidity[:20],
-    "ph": ph[:20],
-    "conductivity": conductivity[:20]
+    "times": time_stamps[-20:],
+    "temperature": temp[-20:],
+    "humidity": humidity[-20:],
+    "ph": ph[-20:],
+    "conductivity": conductivity[-20:]
   }
 
 @app.route("/pump")
