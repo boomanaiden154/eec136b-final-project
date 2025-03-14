@@ -10,7 +10,7 @@ from flask import Flask
 from flask import send_file
 import requests
 
-FIRMWARE_MOCK_ADDRESS = "http://localhost:8080"
+FIRMWARE_MOCK_ADDRESS = "http://192.168.1.106:80"
 
 app = Flask(__name__)
 
@@ -39,11 +39,11 @@ def root():
 @app.route("/data")
 def data():
   return {
-    "times": time_stamps,
-    "temperature": temp,
-    "humidity": humidity,
-    "ph": ph,
-    "conductivity": conductivity
+    "times": time_stamps[:20],
+    "temperature": temp[:20],
+    "humidity": humidity[:20],
+    "ph": ph[:20],
+    "conductivity": conductivity[:20]
   }
 
 @app.route("/pump")
