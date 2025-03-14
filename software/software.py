@@ -32,6 +32,12 @@ def queryData():
   req_conductivity = requests.get(FIRMWARE_MOCK_ADDRESS + "/do")
   conductivity.append(req_conductivity.json()['do'])
 
+@app.route("/leds")
+def toggleLEDs():
+  led_1 = requests.get(FIRMWARE_MOCK_ADDRESS + "/led?led=1")
+  led_2 = requests.get(FIRMWARE_MOCK_ADDRESS + "/led?led=2")
+  return [led_1.json(), led_2.json()]
+
 @app.route("/")
 def root():
   return send_file("index.html")

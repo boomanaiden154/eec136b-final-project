@@ -23,6 +23,7 @@
     <div style="width: 100vw;">
       <button id="water-pump">Toggle Water Pump</button>
       <button id="refresh">Refresh</button>
+      <button id="leds">Toggle LEDs</button>
     </div>
 
     <script>
@@ -103,6 +104,10 @@
 
       document.getElementById("water-pump").onclick = function() {
         fetch("/pump")
+      };
+
+      document.getElementById("leds").onclick = function() {
+        fetch("/leds")
       };
     </script>
   </body>
